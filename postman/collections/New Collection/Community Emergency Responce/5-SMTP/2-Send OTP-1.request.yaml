@@ -1,0 +1,5 @@
+$kind: http-request
+name: 2-Send OTP
+url: ""
+method: GET
+order: 1848262703063764
