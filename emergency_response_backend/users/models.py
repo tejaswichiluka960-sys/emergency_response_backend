@@ -29,7 +29,31 @@ class UserProfile(models.Model):
     )
     otp = models.CharField(max_length=6, null=True, blank=True)
     is_verified = models.BooleanField(default=False)
+    
+    latitude = models.DecimalField(
+        max_digits=10,
+        decimal_places=7,
+        null=True,
+        blank=True
+    )
+    
+    longitude = models.DecimalField(
+        max_digits=10,
+        decimal_places=7,
+        null=True,
+        blank=True
+    )
+    
+    accuracy = models.FloatField(
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
         return self.user.username
+    
+    
+
+  
+    
     

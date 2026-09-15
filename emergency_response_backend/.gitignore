@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.venv/
+
+# Django
+db.sqlite3
+
+# Environment variables
+.env
+
+# Firebase credentials
+service-account.json
+firebase-service-account.json
+*-firebase-adminsdk-*.json
+
+# Secrets
+secrets.json
+
+# IDE
+.vscode/

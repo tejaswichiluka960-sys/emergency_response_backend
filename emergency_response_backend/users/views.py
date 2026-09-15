@@ -12,6 +12,7 @@ import random
 from django.core.mail import send_mail
 from django.conf import settings
 from rest_framework_simplejwt.tokens import RefreshToken
+from.serializers import LocationSerializer
 
 
 class RegisterView(APIView):
@@ -196,5 +197,40 @@ class VerifyOTPView(APIView):
             return Response({
                 "error": str(e)
             }, status=400)
+            
+class UpdateLocationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        profile = request.user.userprofile
+
+        serializer = LocationSerializer(
+            profile,
+            data=request.data,
+            partial=True
+        )
+
+        if serializer.is_valid():
+            serializer.save()
+
+            return Response({
+                "success": True,
+                "message": "Location updated successfully."
+            })
+
+        return Response(serializer.errors)
+    
+    
+class GetLocationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        profile = request.user.userprofile
+
+        serializer = LocationSerializer(profile)
+
+        return Response(serializer.data)                
             
             

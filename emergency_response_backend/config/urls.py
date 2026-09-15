@@ -21,5 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users.urls')),
     path('api/', include('society.urls')),
+    path('api/v1/', include('emergency.urls')),
+    path('api/v1/sos/',include('sos.urls')),
+    path('api/v1/users/', include('users.urls')),
+    path('api/v1/notifications/',include('notifications.urls')),
+    path('api/emergency/', include('emergency.urls')),
+    path('api/v1/alert-routing/',include('alert_routing.urls')),
     
 ]
