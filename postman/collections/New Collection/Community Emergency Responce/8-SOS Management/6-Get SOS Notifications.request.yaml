@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "6-Get SOS Notifications"
+url: "{{base_url}}/api/v1/incidents/{{incident_id}}/notifications/"
 method: GET
-order: 4482969570857607
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 6

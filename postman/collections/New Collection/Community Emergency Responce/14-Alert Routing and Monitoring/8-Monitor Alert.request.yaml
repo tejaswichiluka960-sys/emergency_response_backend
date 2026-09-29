@@ -1,4 +1,10 @@
 $kind: http-request
-url: ""
+name: "8-Monitor Alert"
+url: "{{base_url}}/api/v1/alert-routing/monitor/?incident_id={{incident_id}}"
 method: GET
-order: 4502222423192003
+queryParams:
+  - key: incident_id
+    value: "{{incident_id}}"
+headers:
+  Authorization: Bearer {{access_token}}
+order: 8

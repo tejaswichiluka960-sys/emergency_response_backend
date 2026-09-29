@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "2-Get gated society"
+url: '{{base_url}}/api/societies/list/'
 method: GET
-order: 3245471041429929
+headers:
+  Authorization: Bearer {{subadmin_token}}
+order: 2

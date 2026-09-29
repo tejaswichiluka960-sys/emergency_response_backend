@@ -1,0 +1,4 @@
+$kind: collection
+name: 18-Incident Lifecycle Management
+description: Incident details, validated status transitions, resolution, closure, and audit history.
+order: 1017

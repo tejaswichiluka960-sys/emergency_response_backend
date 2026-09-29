@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4484156774695153
+name: "7-Respond to SOS"
+url: "{{base_url}}/api/v1/incidents/{{incident_id}}/respond/"
+method: POST
+headers:
+  Authorization: Bearer {{responder_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "estimated_arrival_minutes": {{estimated_arrival_minutes}}
+    }
+order: 7

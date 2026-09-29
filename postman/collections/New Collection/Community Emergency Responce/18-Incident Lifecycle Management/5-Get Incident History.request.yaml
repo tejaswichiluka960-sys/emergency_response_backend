@@ -1,0 +1,8 @@
+$kind: http-request
+name: 5-Get Incident History
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/history/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+order: 5000

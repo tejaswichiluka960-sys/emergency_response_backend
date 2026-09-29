@@ -1,0 +1,21 @@
+$kind: http-request
+name: 2-Update Escalation Config
+url: '{{base_url}}/api/v1/escalation/config/'
+method: PATCH
+headers:
+  - key: Authorization
+    value: Bearer {{subadmin_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "response_timeout_seconds": {{response_timeout_seconds}},
+      "primary_guardian_enabled": true,
+      "secondary_guardian_enabled": true,
+      "emergency_contact_enabled": true,
+      "security_enabled": true,
+      "volunteer_enabled": true
+    }
+order: 2000

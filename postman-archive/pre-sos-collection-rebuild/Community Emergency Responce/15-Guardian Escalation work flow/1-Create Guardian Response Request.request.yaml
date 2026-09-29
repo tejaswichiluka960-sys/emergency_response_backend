@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/sos/incidents/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "category": {{category_id}},
+      "message": "Postman Module 1 guardian escalation test"
+    }
+order: 1789753923526

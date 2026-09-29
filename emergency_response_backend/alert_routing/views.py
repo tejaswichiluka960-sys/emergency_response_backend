@@ -1,9 +1,67 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import BasePermission, IsAuthenticated
 
 from .models import AlertRoute
 from .serializers import AlertRouteSerializer
+from sos.models import GuardianRelationship, SOSIncident, SOSResponse
+from users.permissions import (
+    IsPlatformOrSocietyAdmin,
+    IsResponder,
+    PLATFORM_ADMIN_ROLES,
+    SOCIETY_ADMIN_ROLES,
+    RESPONDER_ROLES,
+    get_role,
+    is_platform_admin,
+    is_society_admin,
+)
+
+
+class IsAlertDeliveryParticipant(BasePermission):
+    """Roles allowed to update delivery records for routed alerts."""
+
+    allowed_roles = PLATFORM_ADMIN_ROLES | SOCIETY_ADMIN_ROLES | {'RESIDENT', 'GUARDIAN', 'VOLUNTEER', 'SECURITY'}
+
+    def has_permission(self, request, view):
+        return bool(getattr(request.user, 'is_authenticated', False)) and get_role(request.user) in self.allowed_roles
+
+
+class IsAlertResponseParticipant(BasePermission):
+    """Roles allowed to update alert response status; ADMIN remains excluded."""
+
+    allowed_roles = RESPONDER_ROLES | {'RESIDENT'}
+
+    def has_permission(self, request, view):
+        return bool(getattr(request.user, 'is_authenticated', False)) and get_role(request.user) in self.allowed_roles
+
+
+def _same_society(user, incident):
+    actor_society = getattr(getattr(user, 'userprofile', None), 'society_id', None)
+    owner_society = getattr(getattr(incident.user, 'userprofile', None), 'society_id', None)
+    return actor_society is not None and actor_society == owner_society
+
+
+def _can_access_incident(user, incident):
+    if is_platform_admin(user) or incident.user_id == user.id:
+        return True
+    if is_society_admin(user) or get_role(user) in {'VOLUNTEER', 'SECURITY'}:
+        return _same_society(user, incident)
+    if get_role(user) == 'GUARDIAN':
+        return GuardianRelationship.objects.filter(
+            resident=incident.user, guardian=user, is_active=True
+        ).exists()
+    return SOSResponse.objects.filter(incident=incident, responder=user).exists()
+
+
+def _accessible_routes(user, routes):
+    if is_platform_admin(user):
+        return routes
+    accessible_ids = [
+        incident.id for incident in SOSIncident.objects.all()
+        if _can_access_incident(user, incident)
+    ]
+    return routes.filter(incident_id__in=accessible_ids)
 
 
 # ============================================================
@@ -11,6 +69,7 @@ from .serializers import AlertRouteSerializer
 # ============================================================
 
 class AlertRoutingView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
@@ -25,6 +84,13 @@ class AlertRoutingView(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        try:
+            incident = SOSIncident.objects.get(id=incident_id)
+        except SOSIncident.DoesNotExist:
+            return Response({'success': False, 'error': 'Incident not found'}, status=status.HTTP_404_NOT_FOUND)
+        if not _can_access_incident(request.user, incident):
+            return Response({'success': False, 'error': 'You do not have access to this incident'}, status=status.HTTP_403_FORBIDDEN)
 
         if not emergency_type:
             return Response(
@@ -123,20 +189,16 @@ class AlertRoutingView(APIView):
 # ============================================================
 
 class AlertRoutingListView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
 
         incident_id = request.query_params.get("incident_id")
 
+        routes = AlertRoute.objects.all()
         if incident_id:
-
-            routes = AlertRoute.objects.filter(
-                incident_id=incident_id
-            )
-
-        else:
-
-            routes = AlertRoute.objects.all()
+            routes = routes.filter(incident_id=incident_id)
+        routes = _accessible_routes(request.user, routes)
 
         serializer = AlertRouteSerializer(
             routes,
@@ -158,6 +220,7 @@ class AlertRoutingListView(APIView):
 # ============================================================
 
 class AlertMonitoringView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
 
@@ -173,6 +236,10 @@ class AlertMonitoringView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+        try:
+            incident = SOSIncident.objects.get(id=incident_id)
+        except SOSIncident.DoesNotExist:
+            return Response({'success': False, 'error': 'Incident not found'}, status=status.HTTP_404_NOT_FOUND)
         routes = AlertRoute.objects.filter(
             incident_id=incident_id
         )
@@ -271,6 +338,7 @@ class AlertMonitoringView(APIView):
 # ============================================================
 
 class UpdateDeliveryStatusView(APIView):
+    permission_classes = [IsAuthenticated, IsAlertDeliveryParticipant]
 
     def patch(self, request, route_id):
 
@@ -290,8 +358,22 @@ class UpdateDeliveryStatusView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
 
-        delivery_status = request.data.get(
-            "delivery_status"
+        # Volunteers may update only volunteer delivery routes. Other roles
+        # retain the broader delivery-management access already granted.
+        if get_role(request.user) == 'VOLUNTEER' and route.recipient_type != 'VOLUNTEER':
+            return Response(
+                {
+                    "success": False,
+                    "error": "Volunteers may update only volunteer delivery routes"
+                },
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        raw_delivery_status = request.data.get("delivery_status")
+        delivery_status = (
+            str(raw_delivery_status).strip().upper()
+            if raw_delivery_status is not None
+            else None
         )
 
         if delivery_status not in [
@@ -303,7 +385,7 @@ class UpdateDeliveryStatusView(APIView):
             return Response(
                 {
                     "success": False,
-                    "error": "Invalid delivery status"
+                    "error": "Invalid delivery status. Use PENDING, DELIVERED, or FAILED."
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -331,6 +413,7 @@ class UpdateDeliveryStatusView(APIView):
 # ============================================================
 
 class UpdateResponseStatusView(APIView):
+    permission_classes = [IsAuthenticated, IsAlertResponseParticipant]
 
     def patch(self, request, route_id):
 

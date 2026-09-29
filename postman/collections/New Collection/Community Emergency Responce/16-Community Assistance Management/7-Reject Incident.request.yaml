@@ -1,0 +1,16 @@
+$kind: http-request
+name: 7-Reject Incident
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/reject/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "reason": "{{reject_reason}}"
+    }
+order: 7000

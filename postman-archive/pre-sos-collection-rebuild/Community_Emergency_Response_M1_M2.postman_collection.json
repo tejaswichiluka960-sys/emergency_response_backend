@@ -1,0 +1,274 @@
+{
+  "info": {
+    "name": "Community Emergency Response - Milestones 1 and 2",
+    "description": "Complete local collection for the documented authentication, resident setup, SOS, notification, routing, monitoring, guardian response, and escalation APIs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {"key": "base_url", "value": "http://127.0.0.1:8000"},
+    {"key": "access_token", "value": "REPLACE_WITH_ACCESS_TOKEN"},
+    {"key": "refresh_token", "value": "REPLACE_WITH_REFRESH_TOKEN"},
+    {"key": "resident_token", "value": "REPLACE_WITH_RESIDENT_ACCESS_TOKEN"},
+    {"key": "responder_token", "value": "REPLACE_WITH_SECURITY_OR_VOLUNTEER_ACCESS_TOKEN"},
+    {"key": "guardian_token", "value": "REPLACE_WITH_GUARDIAN_ACCESS_TOKEN"},
+    {"key": "admin_token", "value": "REPLACE_WITH_ADMIN_ACCESS_TOKEN"},
+    {"key": "resident_username", "value": "REPLACE_WITH_YOUR_USERNAME"},
+    {"key": "resident_email", "value": "REPLACE_WITH_YOUR_EMAIL"},
+    {"key": "resident_phone", "value": "REPLACE_WITH_YOUR_MOBILE"},
+    {"key": "resident_password", "value": "REPLACE_WITH_YOUR_PASSWORD"},
+    {"key": "emergency_contact_name", "value": "REPLACE_WITH_CONTACT_NAME"},
+    {"key": "emergency_contact_email", "value": "REPLACE_WITH_CONTACT_EMAIL"},
+    {"key": "emergency_contact_mobile", "value": "REPLACE_WITH_CONTACT_MOBILE"},
+    {"key": "emergency_contact_relationship", "value": "REPLACE_WITH_RELATIONSHIP"},
+    {"key": "incident_id", "value": "1"},
+    {"key": "contact_id", "value": "1"},
+    {"key": "notification_id", "value": "1"},
+    {"key": "route_id", "value": "1"}
+  ],
+  "item": [
+    {
+      "name": "1. Authentication",
+      "item": [
+        {
+          "name": "Register resident",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\":\"{{resident_username}}\",\"email\":\"{{resident_email}}\",\"phone\":\"{{resident_phone}}\",\"password\":\"{{resident_password}}\",\"role\":\"RESIDENT\"}"},
+            "url": "{{base_url}}/api/auth/register/"
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{"listen": "test", "script": {"type": "text/javascript", "exec": ["const body = pm.response.json();", "pm.test('Login succeeded', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));", "if (body.access) { pm.environment.set('resident_token', body.access); pm.environment.set('access_token', body.access); }", "if (body.refresh) { pm.environment.set('refresh_token', body.refresh); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"username\":\"{{resident_username}}\",\"password\":\"{{resident_password}}\"}"},
+            "url": "{{base_url}}/api/auth/login/"
+          }
+        },
+        {
+          "name": "Refresh token",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"refresh\":\"{{refresh_token}}\"}"},
+            "url": "{{base_url}}/api/auth/token/refresh/"
+          }
+        },
+        {
+          "name": "Current user",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{access_token}}"}], "url": "{{base_url}}/api/auth/me/"}
+        },
+        {
+          "name": "Logout",
+          "request": {"method": "POST", "header": [{"key": "Authorization", "value": "Bearer {{access_token}}"}], "url": "{{base_url}}/api/auth/logout/"}
+        }
+      ]
+    },
+    {
+      "name": "2. Resident setup",
+      "item": [
+        {
+          "name": "Update location",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"latitude\":13.1143,\"longitude\":80.1485,\"accuracy\":8.5}"},
+            "url": "{{base_url}}/api/v1/users/me/location/"
+          }
+        },
+        {
+          "name": "Get location",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/users/me/location/"}
+        },
+        {
+          "name": "Add emergency contact",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"name\":\"{{emergency_contact_name}}\",\"email\":\"{{emergency_contact_email}}\",\"mobile\":\"{{emergency_contact_mobile}}\",\"relationship\":\"{{emergency_contact_relationship}}\",\"priority\":1}"},
+            "url": "{{base_url}}/api/v1/users/me/emergency-contacts/"
+          }
+        },
+        {
+          "name": "List emergency contacts",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/users/me/emergency-contacts/"}
+        },
+        {
+          "name": "Get SOS configuration",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/users/me/sos-config/"}
+        },
+        {
+          "name": "Update SOS configuration",
+          "request": {
+            "method": "PATCH",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"default_category\":\"medical\",\"response_timeout_seconds\":60,\"notify_guardians\":true,\"notify_security\":true,\"notify_volunteers\":true,\"community_broadcast\":true,\"location_sharing\":true}"},
+            "url": "{{base_url}}/api/v1/users/me/sos-config/"
+          }
+        },
+        {
+          "name": "List emergency categories",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/emergency-categories/"}
+        }
+      ]
+    },
+    {
+      "name": "3. SOS incident lifecycle",
+      "item": [
+        {
+          "name": "Trigger SOS",
+          "event": [{"listen": "test", "script": {"type": "text/javascript", "exec": ["const body = pm.response.json();", "pm.test('SOS created', () => pm.expect(pm.response.code).to.eql(201));", "if (body.data && body.data.id) { pm.environment.set('incident_id', String(body.data.id)); }"]}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"category\":\"medical\",\"message\":\"Immediate assistance required near Block A.\",\"location\":{\"latitude\":13.1143,\"longitude\":80.1485,\"accuracy\":8.5}}"},
+            "url": "{{base_url}}/api/v1/incidents/sos/"
+          }
+        },
+        {
+          "name": "List my incidents",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/incidents/?status=open&page=1&page_size=20"}
+        },
+        {
+          "name": "Get incident details",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/"}
+        },
+        {
+          "name": "Cancel incident",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"reason\":\"False alarm\"}"},
+            "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/cancel/"
+          }
+        },
+        {
+          "name": "Incident history",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/history/"}
+        },
+        {
+          "name": "Incident notifications",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/notifications/"}
+        }
+      ]
+    },
+    {
+      "name": "4. Guardian response and escalation",
+      "item": [
+        {
+          "name": "Guardian incident inbox",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{guardian_token}}"}], "url": "{{base_url}}/api/v1/guardian/incidents/?status=open"}
+        },
+        {
+          "name": "Accept incident",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{responder_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"estimated_arrival_minutes\":5}"},
+            "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/accept/"
+          }
+        },
+        {
+          "name": "Response update",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{responder_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"status\":\"responder_arrived\",\"message\":\"Security staff reached the location.\"}"},
+            "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/updates/"
+          }
+        },
+        {
+          "name": "Resolve incident",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{responder_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"resolution\":\"Medical assistance provided successfully.\"}"},
+            "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/resolve/"
+          }
+        },
+        {
+          "name": "Escalate to secondary guardian",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"level\":2}"},
+            "url": "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/guardian/escalate/"
+          }
+        },
+        {
+          "name": "Escalate to emergency contacts",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"level\":3}"},
+            "url": "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/guardian/escalate/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Notifications and monitoring",
+      "item": [
+        {
+          "name": "My notifications",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/notifications/"}
+        },
+        {
+          "name": "Notification count",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/notifications/count/"}
+        },
+        {
+          "name": "Mark notification read",
+          "request": {"method": "PATCH", "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}], "url": "{{base_url}}/api/v1/notifications/{{notification_id}}/read/"}
+        },
+        {
+          "name": "Push notification topic",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"topic\":\"emergency_alerts\",\"title\":\"Emergency Alert\",\"body\":\"A resident needs assistance.\",\"data\":{\"incident_id\":\"{{incident_id}}\"}}"},
+            "url": "{{base_url}}/api/v1/notifications/send-push/"
+          }
+        },
+        {
+          "name": "Email notification",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"email\":\"{{resident_email}}\",\"subject\":\"Emergency Alert\",\"message\":\"A resident needs assistance.\"}"},
+            "url": "{{base_url}}/api/v1/notifications/send-email/"
+          }
+        },
+        {
+          "name": "Route SOS alert",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"incident_id\":\"{{incident_id}}\",\"emergency_type\":\"medical\"}"},
+            "url": "{{base_url}}/api/v1/alert-routing/route-alert/"
+          }
+        },
+        {
+          "name": "Monitor alert",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}], "url": "{{base_url}}/api/v1/alert-routing/monitor/?incident_id={{incident_id}}"}
+        },
+        {
+          "name": "Get escalation configuration",
+          "request": {"method": "GET", "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}], "url": "{{base_url}}/api/v1/escalation/config/"}
+        },
+        {
+          "name": "Manual escalation",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{admin_token}}"}, {"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"level\":2,\"reason\":\"No responder accepted within response window.\"}"},
+            "url": "{{base_url}}/api/v1/incidents/{{incident_id}}/escalate/"
+          }
+        }
+      ]
+    }
+  ]
+}

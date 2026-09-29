@@ -1,0 +1,8 @@
+$kind: http-request
+name: 1-Get Escalation Config
+url: '{{base_url}}/api/v1/escalation/config/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{admin_token}}
+order: 1000

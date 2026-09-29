@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
-method: GET
-order: 3229015487911085
+name: "5-Send OTP Contact Verification"
+url: "{{base_url}}/api/v1/emergency-contacts/{{contact_id}}/send-otp/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 5

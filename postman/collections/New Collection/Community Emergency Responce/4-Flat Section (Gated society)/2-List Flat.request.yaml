@@ -1,4 +1,10 @@
 $kind: http-request
-url: ""
+name: "2-List Flat"
+url: '{{base_url}}/api/flats/list/'
 method: GET
-order: 2743034972252488
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{admin_token}}'
+order: 2

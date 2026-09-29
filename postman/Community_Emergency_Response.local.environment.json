@@ -1,0 +1,535 @@
+{
+  "name": "Community Emergency Response - Local",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "access_token",
+      "value": "REPLACE_WITH_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "refresh_token",
+      "value": "REPLACE_WITH_REFRESH_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "resident_token",
+      "value": "REPLACE_WITH_RESIDENT_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "responder_token",
+      "value": "REPLACE_WITH_SECURITY_OR_VOLUNTEER_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "guardian_token",
+      "value": "REPLACE_WITH_GUARDIAN_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "admin_token",
+      "value": "REPLACE_WITH_ADMIN_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "subadmin_token",
+      "value": "REPLACE_WITH_SUBADMIN_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "platform_admin_token",
+      "value": "REPLACE_WITH_PLATFORM_ADMIN_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "society_admin_token",
+      "value": "REPLACE_WITH_SOCIETY_ADMIN_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "volunteer_token",
+      "value": "REPLACE_WITH_VOLUNTEER_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "security_token",
+      "value": "REPLACE_WITH_SECURITY_ACCESS_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "resident_username",
+      "value": "REPLACE_WITH_YOUR_USERNAME",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "resident_email",
+      "value": "REPLACE_WITH_YOUR_EMAIL",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "shared_registration_email",
+      "value": "REPLACE_WITH_SHARED_EMAIL",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "target_user_id",
+      "value": "REPLACE_WITH_TARGET_USER_ID",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "target_username",
+      "value": "REPLACE_WITH_TARGET_USERNAME",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "resident_phone",
+      "value": "REPLACE_WITH_YOUR_MOBILE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "resident_password",
+      "value": "REPLACE_WITH_YOUR_PASSWORD",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "invite_email",
+      "value": "REPLACE_WITH_INVITEE_EMAIL",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "otp",
+      "value": "REPLACE_WITH_EMAIL_OTP",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "contact_otp",
+      "value": "REPLACE_WITH_CONTACT_OTP",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "society_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "society_name",
+      "value": "REPLACE_WITH_SOCIETY_NAME",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "society_owner_name",
+      "value": "REPLACE_WITH_OWNER_NAME",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "society_incharge",
+      "value": "REPLACE_WITH_INCHARGE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "society_address",
+      "value": "REPLACE_WITH_SOCIETY_ADDRESS",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "flat_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "flat_number",
+      "value": "REPLACE_WITH_FLAT_NUMBER",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "flat_owner_name",
+      "value": "REPLACE_WITH_FLAT_OWNER",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "flat_floor",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "emergency_contact_name",
+      "value": "REPLACE_WITH_CONTACT_NAME",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "emergency_contact_email",
+      "value": "REPLACE_WITH_CONTACT_EMAIL",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "emergency_contact_mobile",
+      "value": "REPLACE_WITH_CONTACT_MOBILE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "emergency_contact_relationship",
+      "value": "REPLACE_WITH_RELATIONSHIP",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "emergency_contact_priority",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "category_code",
+      "value": "medical",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "sos_message",
+      "value": "REPLACE_WITH_SOS_MESSAGE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "sos_phone",
+      "value": "REPLACE_WITH_SOS_PHONE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "latitude",
+      "value": "13.1143",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "longitude",
+      "value": "80.1485",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "accuracy",
+      "value": "8.5",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "incident_id",
+      "value": "5",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "incident_status",
+      "value": "ACTIVE RESPONSE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "status_note",
+      "value": "REPLACE_WITH_STATUS_NOTE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "estimated_arrival_minutes",
+      "value": "5",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notification_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "fcm_device_token",
+      "value": "REPLACE_WITH_FCM_DEVICE_TOKEN",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "fcm_topic",
+      "value": "emergency_alerts",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notification_title",
+      "value": "SOS Emergency Alert",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notification_body",
+      "value": "Resident requested immediate emergency assistance.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "emergency_type",
+      "value": "medical",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notification_email",
+      "value": "REPLACE_WITH_NOTIFICATION_EMAIL",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "email_subject",
+      "value": "Emergency Alert",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "email_message",
+      "value": "REPLACE_WITH_EMAIL_MESSAGE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "guardian_route_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "security_route_id",
+      "value": "2",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "volunteer_route_id",
+      "value": "3",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "route_id",
+      "value": "1",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "guardian_delivery_status",
+      "value": "DELIVERED",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "security_delivery_status",
+      "value": "DELIVERED",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "volunteer_delivery_status",
+      "value": "DELIVERED",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "response_timeout_seconds",
+      "value": "60",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notify_guardians",
+      "value": "true",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notify_security",
+      "value": "true",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "notify_volunteers",
+      "value": "true",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "community_broadcast",
+      "value": "true",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "location_sharing",
+      "value": "true",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "escalation_level",
+      "value": "2",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "escalation_reason",
+      "value": "No response within the configured guardian timeout.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "guardian_response_message",
+      "value": "I received the alert and am responding now.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "is_available",
+      "value": "true",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "responder_latitude",
+      "value": "13.1143",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "responder_longitude",
+      "value": "80.1485",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "responder_accuracy",
+      "value": "8.5",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "nearby_radius_km",
+      "value": "5",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "response_message",
+      "value": "Accepted. I am on the way.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "reject_reason",
+      "value": "Currently unavailable to respond.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "guardian_user_id",
+      "value": "REPLACE_WITH_GUARDIAN_USER_ID",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "relationship_type",
+      "value": "PRIMARY",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "chat_message",
+      "value": "Responder update: assistance is in progress.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "voice_duration_seconds",
+      "value": "20",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "voice_message_file",
+      "value": "C:/path/to/voice-message.m4a",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "voice_message_id",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "offline_client_message_id",
+      "value": "mobile-message-001",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "digital_twin_scenario",
+      "value": "RESPONDER_ACCEPTS",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "resolution_note",
+      "value": "Assistance completed successfully.",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "closure_note",
+      "value": "Incident reviewed, documented, and closed.",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_using": "Codex read/write-safe template"
+}

@@ -1,0 +1,7 @@
+$kind: http-request
+name: 3-Mark Notification read
+url: "{{base_url}}/api/v1/notifications/{{notification_id}}/read/"
+method: PATCH
+headers:
+  Authorization: Bearer {{access_token}}
+order: 2

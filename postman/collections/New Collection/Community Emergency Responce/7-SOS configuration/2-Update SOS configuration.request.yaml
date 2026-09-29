@@ -1,4 +1,20 @@
 $kind: http-request
-url: ""
-method: GET
-order: 1756692882454697
+name: "2-Update SOS configuration"
+url: "{{base_url}}/api/v1/users/me/sos-config/"
+method: PATCH
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "default_category": "{{category_code}}",
+      "response_timeout_seconds": {{response_timeout_seconds}},
+      "notify_guardians": {{notify_guardians}},
+      "notify_security": {{notify_security}},
+      "notify_volunteers": {{notify_volunteers}},
+      "community_broadcast": {{community_broadcast}},
+      "location_sharing": {{location_sharing}}
+    }
+order: 2

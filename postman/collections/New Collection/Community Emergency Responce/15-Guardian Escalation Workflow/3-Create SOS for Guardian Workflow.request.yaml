@@ -1,0 +1,23 @@
+$kind: http-request
+name: 3-Create SOS for Guardian Workflow
+url: '{{base_url}}/api/v1/incidents/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{resident_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "category": "{{category_code}}",
+      "message": "{{sos_message}}",
+      "location": {
+        "latitude": {{latitude}},
+        "longitude": {{longitude}},
+        "accuracy": {{accuracy}}
+      },
+      "phone": "{{sos_phone}}"
+    }
+order: 3000

@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4497648561047665
+name: "6-Update Volunteer Failed"
+url: "{{base_url}}/api/v1/alert-routing/routes/{{volunteer_route_id}}/delivery/"
+method: PATCH
+headers:
+  Authorization: Bearer {{access_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "delivery_status": "FAILED"
+    }
+order: 6

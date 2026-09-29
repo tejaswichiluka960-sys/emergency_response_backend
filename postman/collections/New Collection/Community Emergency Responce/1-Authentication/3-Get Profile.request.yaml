@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "3-Get Profile"
+url: "{{base_url}}/api/v1/auth/me/"
 method: GET
-order: 4247525897730920
+headers:
+  Authorization: Bearer {{access_token}}
+order: 3

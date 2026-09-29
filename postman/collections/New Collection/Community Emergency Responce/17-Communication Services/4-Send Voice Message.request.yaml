@@ -1,0 +1,20 @@
+$kind: http-request
+name: 4-Send Voice Message
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/chat/messages/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+body:
+  type: formdata
+  content:
+    - key: message_type
+      type: text
+      value: VOICE
+    - key: duration_seconds
+      type: text
+      value: '20'
+    - key: audio_file
+      type: file
+      src: '{{voice_message_file}}'
+order: 4000

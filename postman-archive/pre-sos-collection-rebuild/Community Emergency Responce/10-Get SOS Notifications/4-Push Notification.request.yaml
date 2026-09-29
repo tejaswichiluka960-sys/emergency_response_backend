@@ -1,0 +1,18 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/v1/notifications/send-push/
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "topic": "emergency_alerts",
+      "title": "SOS Emergency Alert",
+      "body": "Resident requested immediate emergency assistance!",
+      "data": {
+        "emergency_type": "MEDICAL",
+        "incident_id": "101"
+      }
+    }
+order: 4410198379327394

@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4113544456849035
+name: "2-login"
+url: "{{base_url}}/api/v1/auth/login/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "",
+      "password": ""
+    }
+order: 2

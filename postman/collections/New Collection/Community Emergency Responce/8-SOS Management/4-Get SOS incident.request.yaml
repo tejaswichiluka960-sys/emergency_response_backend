@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "4-Get SOS incident"
+url: "{{base_url}}/api/v1/incidents/{{incident_id}}/"
 method: GET
-order: 4005737753783082
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 4

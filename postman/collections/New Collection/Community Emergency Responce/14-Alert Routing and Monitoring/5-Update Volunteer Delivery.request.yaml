@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4497335835492414
+name: "5-Update Volunteer Delivery"
+url: "{{base_url}}/api/v1/alert-routing/routes/{{volunteer_route_id}}/delivery/"
+method: PATCH
+headers:
+  Authorization: Bearer {{access_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "delivery_status": "{{volunteer_delivery_status}}"
+    }
+order: 5

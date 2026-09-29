@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emergency Response FCM Token Generator</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; }
+    button { padding: 10px 16px; cursor: pointer; }
+    textarea { width: 100%; min-height: 150px; margin-top: 12px; }
+    #status { margin-top: 16px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>FCM device token</h1>
+  <p>This local page generates a browser registration token for the Emergency Response Firebase project.</p>
+  <button id="generate">Generate FCM token</button>
+  <div id="status">Ready.</div>
+  <textarea id="token" readonly placeholder="The FCM token will appear here"></textarea>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-messaging-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsCnC_y0PdtwIXo1zya_rhDMruG2qrJ1w",
+      authDomain: "emergency-response-70b18.firebaseapp.com",
+      projectId: "emergency-response-70b18",
+      storageBucket: "emergency-response-70b18.firebasestorage.app",
+      messagingSenderId: "186516221853",
+      appId: "1:186516221853:web:28d5681478b15fb0ea4974"
+    };
+    const vapidKey = "BBMpzAlVQ6x6y77xKoGRUV_Vb_dTZ4xxhcolMvHTOUoJcjwbxVzBKYM8Z4-F836h4Q4BLcbEdzwAbUITQnitUnM";
+    firebase.initializeApp(firebaseConfig);
+    const messaging = firebase.messaging();
+
+    document.getElementById('generate').addEventListener('click', async () => {
+      const status = document.getElementById('status');
+      const output = document.getElementById('token');
+      status.textContent = 'Requesting browser notification permission...';
+      output.value = '';
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') throw new Error(`Notification permission was ${permission}.`);
+        const registration = await navigator.serviceWorker.register('./firebase-messaging-sw.js');
+        const token = await messaging.getToken({ vapidKey, serviceWorkerRegistration: registration });
+        if (!token) throw new Error('Firebase returned an empty token.');
+        output.value = token;
+        status.textContent = 'FCM token generated successfully.';
+      } catch (error) {
+        status.textContent = `Unable to generate token: ${error.message}`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,4 +1,15 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4441094126658436
+name: "5-Update SOS status"
+url: "{{base_url}}/api/v1/incidents/{{incident_id}}/status/"
+method: PATCH
+headers:
+  Authorization: Bearer {{responder_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "{{incident_status}}",
+      "note": "{{status_note}}"
+    }
+order: 5

@@ -1,4 +1,19 @@
 $kind: http-request
-url: ""
-method: GET
-order: 1788108420220
+name: "1-invite API"
+url: '{{base_url}}/api/v1/invite/'
+method: POST
+headers:
+  - key: Content-Type
+    value: application/json
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{admin_token}}'
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{invite_email}}"
+    }
+order: 1

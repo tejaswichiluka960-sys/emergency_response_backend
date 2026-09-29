@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
     path('societies/', SocietyView.as_view()),
     path('societies/list/', SocietyListView.as_view()),
+    path('societies/<int:pk>/', GetSocietyView.as_view()),
     path('societies/update/<int:pk>/', UpdateSocietyView.as_view()),
     path('societies/delete/<int:pk>/', DeleteSocietyView.as_view()),
     path('invite/', InviteUserView.as_view()),

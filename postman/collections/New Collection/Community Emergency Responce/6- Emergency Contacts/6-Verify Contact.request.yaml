@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 3888791566965242
+name: "6-Verify Contact"
+url: "{{base_url}}/api/v1/emergency-contacts/{{contact_id}}/verify/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "otp": "{{contact_otp}}"
+    }
+order: 6

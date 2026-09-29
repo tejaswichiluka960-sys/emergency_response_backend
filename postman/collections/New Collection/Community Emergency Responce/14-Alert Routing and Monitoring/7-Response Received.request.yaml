@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4500804006294281
+name: "7-Response Received"
+url: "{{base_url}}/api/v1/alert-routing/routes/{{route_id}}/response/"
+method: PATCH
+headers:
+  Authorization: Bearer {{access_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "response_status": "RESPONDED"
+    }
+order: 7

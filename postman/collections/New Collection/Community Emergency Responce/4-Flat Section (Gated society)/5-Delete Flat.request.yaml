@@ -1,4 +1,10 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4476553281727447
+name: "5-Delete Flat"
+url: '{{base_url}}/api/flats/delete/{{flat_id}}/'
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{admin_token}}'
+order: 5

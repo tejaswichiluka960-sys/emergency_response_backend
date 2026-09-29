@@ -1,0 +1,16 @@
+$kind: http-request
+name: 4-Close Incident
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/close/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{resident_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "closure_note": "{{closure_note}}"
+    }
+order: 4000

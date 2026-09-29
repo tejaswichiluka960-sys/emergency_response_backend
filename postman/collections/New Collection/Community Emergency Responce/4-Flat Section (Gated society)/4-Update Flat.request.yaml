@@ -1,4 +1,22 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4473392544926837
+name: "4-Update Flat"
+url: '{{base_url}}/api/flats/update/{{flat_id}}/'
+method: PUT
+headers:
+  - key: Content-Type
+    value: application/json
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{admin_token}}'
+body:
+  type: json
+  content: |-
+    {
+      "flat_number": "{{flat_number}}",
+      "owner_name": "{{flat_owner_name}}",
+      "floor": {{flat_floor}},
+      "society_name": "{{society_name}}"
+    }
+order: 4

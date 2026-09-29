@@ -1,0 +1,20 @@
+$kind: http-request
+name: "5-Push Notification Device Token"
+url: "{{base_url}}/api/v1/notifications/send-push/"
+method: POST
+headers:
+  Authorization: Bearer {{admin_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "device_token": "{{fcm_device_token}}",
+      "title": "{{notification_title}}",
+      "body": "{{notification_body}}",
+      "data": {
+        "emergency_type": "{{emergency_type}}",
+        "incident_id": "{{incident_id}}"
+      }
+    }
+order: 4

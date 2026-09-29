@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "1-Get SOS configuration"
+url: "{{base_url}}/api/v1/users/me/sos-config/"
 method: GET
-order: 1788889236371
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 1

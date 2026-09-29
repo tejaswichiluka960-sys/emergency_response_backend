@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/notifications/"
+method: GET
+headers:
+  Authorization: Bearer {{guardian_token}}
+order: 265655116788295

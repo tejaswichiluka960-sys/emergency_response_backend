@@ -1,0 +1,13 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/emergency/send-sos-sms/
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "phone": "+918919875820",
+      "message": "sms_appointment_reminders"
+    }
+order: 23198804977808

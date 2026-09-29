@@ -1,0 +1,18 @@
+$kind: http-request
+url: "http://127.0.0.1:8000/api/v1/notifications/send-push/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "device_token": "<REPLACE_WITH_YOUR_FCM_DEVICE_TOKEN>",
+      "title": "Personal Emergency Alert",
+      "body": "High priority alert directed to your device!",
+      "data": {
+        "emergency_type": "SECURITY",
+        "incident_id": "102"
+      }
+    }
+order: 441019837932740

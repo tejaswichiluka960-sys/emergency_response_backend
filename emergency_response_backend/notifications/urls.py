@@ -5,6 +5,7 @@ from .views import NotificationCountView
 from .views import SendSMSView
 from .views import SendEmailView
 from .views import  SendNotificationView
+from .views import MarkAllNotificationsReadView
 urlpatterns = [
     path(
         '',
@@ -16,6 +17,11 @@ urlpatterns = [
     '<int:notification_id>/read/',
     MarkNotificationReadView.as_view(),
     name='mark-read'
+    ),
+    path(
+    'read-all/',
+    MarkAllNotificationsReadView.as_view(),
+    name='mark-all-read'
     ),
     path(
     'count/',

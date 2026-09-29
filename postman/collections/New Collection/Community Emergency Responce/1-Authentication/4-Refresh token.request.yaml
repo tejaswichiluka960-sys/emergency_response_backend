@@ -1,4 +1,14 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4421773741037649
+name: "4-Refresh token"
+description: "SimpleJWT expects the refresh token under the refresh field."
+url: "{{base_url}}/api/v1/token/refresh/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "refresh": "{{refresh_token}}"
+    }
+order: 4

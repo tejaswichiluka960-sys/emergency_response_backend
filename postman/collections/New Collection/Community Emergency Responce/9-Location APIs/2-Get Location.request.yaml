@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "2-Get Location"
+url: "{{base_url}}/api/v1/users/me/location/"
 method: GET
-order: 2395605864630806
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 2

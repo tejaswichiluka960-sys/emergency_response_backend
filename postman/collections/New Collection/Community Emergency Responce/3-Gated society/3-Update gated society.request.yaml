@@ -1,4 +1,22 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4151429190584362
+name: "3-Update gated society"
+url: '{{base_url}}/api/societies/update/{{society_id}}/'
+method: PUT
+headers:
+  - key: Content-Type
+    value: application/json
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{subadmin_token}}'
+body:
+  type: json
+  content: |-
+    {
+      "society_name": "{{society_name}}",
+      "owner_name": "{{society_owner_name}}",
+      "incharge": "{{society_incharge}}",
+      "address": "{{society_address}}"
+    }
+order: 3

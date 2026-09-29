@@ -31,6 +31,24 @@ class EmergencyContactSerializer(serializers.ModelSerializer):
         
 class SOSConfigurationSerializer(serializers.ModelSerializer):
 
+    # Accept both the API codes (for example, ``medical``) and the display
+    # labels returned by the model choices (for example, ``Medical``).
+    # Normalize all accepted values back to the canonical lowercase code.
+    default_category = serializers.CharField(required=False)
+
+    def validate_default_category(self, value):
+        choices = dict(SOSConfiguration.CATEGORY_CHOICES)
+        normalized = str(value).strip().casefold()
+
+        for code, label in choices.items():
+            if normalized in {code.casefold(), label.casefold()}:
+                return code
+
+        valid_values = ", ".join(choices.keys())
+        raise serializers.ValidationError(
+            f"Invalid category. Use one of: {valid_values}."
+        )
+
     class Meta:
         model = SOSConfiguration
 

@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4208434647892043
+name: "4-Delete gated society"
+url: '{{base_url}}/api/societies/delete/{{society_id}}/'
+method: DELETE
+headers:
+  Authorization: Bearer {{subadmin_token}}
+order: 4

@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "1-Emergency categories"
+url: "{{base_url}}/api/v1/emergency-categories/"
 method: GET
-order: 1789059476064
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 1

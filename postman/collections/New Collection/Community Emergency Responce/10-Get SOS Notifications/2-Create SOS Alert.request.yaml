@@ -1,4 +1,22 @@
 $kind: http-request
-url: ""
-method: GET
-order: 3113406527422464
+name: "2-Create SOS Alert"
+description: "This endpoint creates the SOS incident and dispatches configured notification channels."
+url: "{{base_url}}/api/v1/incidents/sos/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "category": "{{category_code}}",
+      "message": "{{sos_message}}",
+      "location": {
+        "latitude": {{latitude}},
+        "longitude": {{longitude}},
+        "accuracy": {{accuracy}}
+      },
+      "phone": "{{sos_phone}}"
+    }
+order: 1

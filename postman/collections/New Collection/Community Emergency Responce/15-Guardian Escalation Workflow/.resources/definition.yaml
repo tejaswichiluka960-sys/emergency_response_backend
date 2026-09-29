@@ -1,0 +1,4 @@
+$kind: collection
+name: 15-Guardian Escalation Workflow
+description: Sequential guardian notification, response, escalation, and incident history APIs.
+order: 1014

@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/guardian/escalate/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "level": 2
+    }
+order: 1600000000000018

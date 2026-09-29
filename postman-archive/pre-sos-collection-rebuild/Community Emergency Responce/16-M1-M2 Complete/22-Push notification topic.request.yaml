@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/notifications/send-push/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "topic": "emergency_alerts",
+      "title": "Emergency Alert",
+      "body": "A resident needs assistance.",
+      "data": {
+        "incident_id": "{{incident_id}}"
+      }
+    }
+order: 1600000000000022

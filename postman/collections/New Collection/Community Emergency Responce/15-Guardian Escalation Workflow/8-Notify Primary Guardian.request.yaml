@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/incidents/{{incident_id}}/guardian/notify/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: "{}"
+order: 3500

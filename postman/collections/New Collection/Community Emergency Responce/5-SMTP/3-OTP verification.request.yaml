@@ -1,0 +1,14 @@
+$kind: http-request
+name: "3-OTP verification"
+url: "{{base_url}}/api/v1/verify-otp/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{resident_email}}",
+      "otp": "{{otp}}"
+    }
+order: 3

@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "1-In App Notification"
+url: "{{base_url}}/api/v1/notifications/"
 method: GET
-order: 1789238706665
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 1

@@ -1,4 +1,18 @@
 $kind: http-request
-url: ""
-method: GET
-order: 1611549999819710
+name: "3-Update Emergency Contact"
+url: "{{base_url}}/api/v1/emergency-contacts/{{contact_id}}/"
+method: PATCH
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "{{emergency_contact_name}}",
+      "email": "{{emergency_contact_email}}",
+      "mobile": "{{emergency_contact_mobile}}",
+      "relationship": "{{emergency_contact_relationship}}",
+      "priority": {{emergency_contact_priority}}
+    }
+order: 3

@@ -1,0 +1,231 @@
+﻿{
+	"info": {
+		"_postman_id": "e4f3a8b2-7d12-4c90-9c1e-emergency01",
+		"name": "Emergency Response System - Core APIs",
+		"description": "Collection for testing the emergency-response APIs, including Module 1 guardian escalation.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "resident_token",
+			"value": "REPLACE_WITH_RESIDENT_JWT_ACCESS_TOKEN"
+		},
+		{
+			"key": "guardian_token",
+			"value": "REPLACE_WITH_GUARDIAN_JWT_ACCESS_TOKEN"
+		},
+		{
+			"key": "category_id",
+			"value": "1"
+		},
+		{
+			"key": "incident_id",
+			"value": "1"
+		}
+	],
+	"item": [
+		{
+			"name": "Twilio SMS",
+			"item": [
+				{
+					"name": "Send SOS SMS",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"+918919875820\",\n    \"message\": \"sms_appointment_reminders\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/emergency/send-sos-sms/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"emergency",
+								"send-sos-sms",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Firebase Notifications",
+			"item": [
+				{
+					"name": "Send Push Notification (Topic)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"topic\": \"emergency_alerts\",\n    \"title\": \"SOS Emergency Alert\",\n    \"body\": \"Resident requested immediate emergency assistance!\",\n    \"data\": {\n        \"emergency_type\": \"MEDICAL\",\n        \"incident_id\": \"101\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/notifications/send-push/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"notifications",
+								"send-push",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Push Notification (Device Token)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"device_token\": \"<REPLACE_WITH_YOUR_FCM_DEVICE_TOKEN>\",\n    \"title\": \"Personal Emergency Alert\",\n    \"body\": \"High priority alert directed to your device!\",\n    \"data\": {\n        \"emergency_type\": \"SECURITY\",\n        \"incident_id\": \"102\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/v1/notifications/send-push/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"notifications",
+								"send-push",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Module 1 - Guardian Escalation Workflow",
+			"description": "Create guardian relationships in Django admin or shell first. Run Create SOS as the resident, then use the appropriate resident or guardian token for each request.",
+			"item": [
+				{
+					"name": "1. Create SOS (notifies primary guardian)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"const response = pm.response.json();",
+									"pm.test('SOS created', () => pm.response.to.have.status(201));",
+									"pm.collectionVariables.set('incident_id', response.data.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{resident_token}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {"mode": "raw", "raw": "{\\n  \\\"category\\\": {{category_id}},\\n  \\\"message\\\": \\\"Postman Module 1 guardian escalation test\\\"\\n}"},
+						"url": "{{base_url}}/api/v1/sos/incidents/"
+					},
+					"response": []
+				},
+				{
+					"name": "2. Get Guardian Notifications",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{guardian_token}}"}],
+						"url": "{{base_url}}/api/v1/notifications/"
+					},
+					"response": []
+				},
+				{
+					"name": "3. Guardian Respond",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Authorization", "value": "Bearer {{guardian_token}}"}],
+						"url": "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/guardian/respond/"
+					},
+					"response": []
+				},
+				{
+					"name": "4. Escalate to Secondary Guardian",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{resident_token}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {"mode": "raw", "raw": "{\\n  \\\"level\\\": 2\\n}"},
+						"url": "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/guardian/escalate/"
+					},
+					"response": []
+				},
+				{
+					"name": "5. Escalate to Emergency Contacts",
+					"request": {
+						"method": "POST",
+						"header": [
+							{"key": "Authorization", "value": "Bearer {{resident_token}}"},
+							{"key": "Content-Type", "value": "application/json"}
+						],
+						"body": {"mode": "raw", "raw": "{\\n  \\\"level\\\": 3\\n}"},
+						"url": "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/guardian/escalate/"
+					},
+					"response": []
+				},
+				{
+					"name": "6. Get Incident History",
+					"request": {
+						"method": "GET",
+						"header": [{"key": "Authorization", "value": "Bearer {{resident_token}}"}],
+						"url": "{{base_url}}/api/v1/sos/incidents/{{incident_id}}/history/"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

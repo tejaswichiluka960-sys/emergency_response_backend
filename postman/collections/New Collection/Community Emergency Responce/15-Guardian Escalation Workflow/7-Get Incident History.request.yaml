@@ -1,0 +1,8 @@
+$kind: http-request
+name: 7-Get Incident History
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/history/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{subadmin_token}}
+order: 7000

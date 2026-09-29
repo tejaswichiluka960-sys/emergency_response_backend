@@ -1,0 +1,17 @@
+$kind: http-request
+name: 3-Send Text Message
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/chat/messages/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "message_type": "TEXT",
+      "message": "{{chat_message}}"
+    }
+order: 3000

@@ -1,0 +1,8 @@
+$kind: http-request
+name: 8-Get Incident Details
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+order: 8000

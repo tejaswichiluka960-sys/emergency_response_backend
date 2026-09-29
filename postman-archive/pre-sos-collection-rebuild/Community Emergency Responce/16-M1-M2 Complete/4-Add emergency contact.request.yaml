@@ -1,0 +1,17 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/users/me/emergency-contacts/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "{{emergency_contact_name}}",
+      "email": "{{emergency_contact_email}}",
+      "mobile": "{{emergency_contact_mobile}}",
+      "relationship": "{{emergency_contact_relationship}}",
+      "priority": 1
+    }
+order: 1600000000000004

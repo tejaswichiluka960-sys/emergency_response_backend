@@ -1,0 +1,6 @@
+$kind: http-request
+url: "{{base_url}}/api/auth/me/"
+headers:
+  Authorization: Bearer {{resident_token}}
+method: GET
+order: 4247525897730920

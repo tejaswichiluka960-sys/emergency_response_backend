@@ -1,4 +1,20 @@
 $kind: http-request
-url: ""
-method: GET
-order: 4410198379327394
+name: "4-Push Notification"
+url: "{{base_url}}/api/v1/notifications/send-push/"
+method: POST
+headers:
+  Authorization: Bearer {{admin_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "topic": "{{fcm_topic}}",
+      "title": "{{notification_title}}",
+      "body": "{{notification_body}}",
+      "data": {
+        "emergency_type": "{{emergency_type}}",
+        "incident_id": "{{incident_id}}"
+      }
+    }
+order: 3

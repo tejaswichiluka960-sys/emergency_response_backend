@@ -1,0 +1,18 @@
+$kind: http-request
+name: 5-Get Nearby Incidents
+url: '{{base_url}}/api/v1/responders/incidents/nearby/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+queryParams:
+  - key: latitude
+    value: '{{responder_latitude}}'
+    description: Optional when the responder has already shared a location.
+  - key: longitude
+    value: '{{responder_longitude}}'
+    description: Optional when the responder has already shared a location.
+  - key: radius_km
+    value: '{{nearby_radius_km}}'
+    description: Search radius from 0 to 100 km.
+order: 5000

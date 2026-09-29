@@ -1,0 +1,16 @@
+$kind: http-request
+name: 5-Guardian Respond
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/guardian/respond/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{guardian_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "response_message": "{{guardian_response_message}}"
+    }
+order: 5000

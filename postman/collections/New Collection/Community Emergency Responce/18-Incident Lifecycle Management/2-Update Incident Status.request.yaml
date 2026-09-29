@@ -1,0 +1,17 @@
+$kind: http-request
+name: 2-Update Incident Status
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/status/'
+method: PATCH
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "{{incident_status}}",
+      "note": "{{status_note}}"
+    }
+order: 2000

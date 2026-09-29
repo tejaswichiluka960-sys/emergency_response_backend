@@ -11,21 +11,37 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured, ValidationError
+from django.core.validators import validate_email
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from project root .env
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$j=j)ogn$$40v%f+td29e(8v*bjjx+#afz(a&jjikz6rvmg@mv'
+# Local development may use the fallback only when DEBUG is explicitly true.
+DEBUG = os.getenv('DJANGO_DEBUG', 'false').lower() == 'true'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '').strip()
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = 'dev-only-change-this-secret'
+    else:
+        raise ImproperlyConfigured('DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is false.')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+# SECURITY WARNING: restrict this list in every deployed environment.
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+    if host.strip()
+]
 
 
 # Application definition
@@ -87,12 +103,34 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'emergency_db',
         'USER': 'postgres',
-        'PASSWORD': 'mini@1811',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
+
+# Allow local credentials to be supplied through environment variables.
+DATABASES['default'].update({
+    'NAME': os.getenv('POSTGRES_DB', DATABASES['default']['NAME']),
+    'USER': os.getenv('POSTGRES_USER', DATABASES['default']['USER']),
+    'PASSWORD': os.getenv('POSTGRES_PASSWORD', DATABASES['default'].get('PASSWORD', '')),
+    'HOST': os.getenv('POSTGRES_HOST', DATABASES['default']['HOST']),
+    'PORT': os.getenv('POSTGRES_PORT', DATABASES['default']['PORT']),
+})
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
+    if origin.strip()
+]
+
+SECURE_SSL_REDIRECT = os.getenv('DJANGO_SECURE_SSL_REDIRECT', 'false').lower() == 'true'
+SESSION_COOKIE_SECURE = os.getenv('DJANGO_SESSION_COOKIE_SECURE', str(not DEBUG)).lower() == 'true'
+CSRF_COOKIE_SECURE = os.getenv('DJANGO_CSRF_COOKIE_SECURE', str(not DEBUG)).lower() == 'true'
+SECURE_HSTS_SECONDS = int(os.getenv('DJANGO_SECURE_HSTS_SECONDS', '0'))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.getenv('DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS', 'false').lower() == 'true'
+SECURE_HSTS_PRELOAD = os.getenv('DJANGO_SECURE_HSTS_PRELOAD', 'false').lower() == 'true'
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
@@ -129,28 +167,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
-EMAIL_HOST_USER = 'tejaswichiluka960@gmail.com'
-EMAIL_HOST_PASSWORD = 'favzpvggyviqbzep'
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 from datetime import timedelta
 
@@ -165,11 +189,44 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
 }
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# Email settings come from the environment. In local DEBUG mode, use Django's
+# console backend when SMTP credentials are not configured instead of raising
+# an invalid-address error from the SMTP backend.
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'true').lower() == 'true'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '').strip()
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '').strip()
+DEFAULT_FROM_EMAIL = (
+    os.getenv('DEFAULT_FROM_EMAIL', '').strip()
+    or EMAIL_HOST_USER
+)
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
 
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+def _is_valid_email(value):
+    try:
+        validate_email(value)
+    except (ValidationError, TypeError):
+        return False
+    return True
 
-EMAIL_HOST_USER = 'tejaswichiluka960@gmail.com'
-EMAIL_HOST_PASSWORD = 'favzpvggyviqbzep'
+
+EMAIL_SMTP_CONFIGURED = bool(
+    EMAIL_HOST
+    and EMAIL_HOST_USER
+    and EMAIL_HOST_PASSWORD
+    and _is_valid_email(DEFAULT_FROM_EMAIL)
+)
+
+if DEBUG and not EMAIL_SMTP_CONFIGURED:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'no-reply@localhost'
+
+# Twilio SMS Configuration
+TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_PHONE_NUMBER = os.getenv("TWILIO_PHONE_NUMBER")
+# Optional approved Twilio Content API template SID for trial SMS sends.
+TWILIO_SMS_CONTENT_SID = os.getenv("TWILIO_SMS_CONTENT_SID")
+TWILIO_USE_TRIAL_TEMPLATES = os.getenv("TWILIO_USE_TRIAL_TEMPLATES", "true").lower() == "true"
+TWILIO_TRIAL_SMS_TEMPLATE = os.getenv("TWILIO_TRIAL_SMS_TEMPLATE", "sms_internal_alerts").strip().lower()

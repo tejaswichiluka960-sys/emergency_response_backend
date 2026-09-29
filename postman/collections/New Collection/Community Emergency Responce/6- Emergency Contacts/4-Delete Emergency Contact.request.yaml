@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
-method: GET
-order: 2412748941556712
+name: "4-Delete Emergency Contact"
+url: "{{base_url}}/api/v1/emergency-contacts/{{contact_id}}/"
+method: DELETE
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 4

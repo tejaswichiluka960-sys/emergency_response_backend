@@ -1,0 +1,8 @@
+$kind: http-request
+name: 1-Get Responder Availability
+url: '{{base_url}}/api/v1/responders/me/availability/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+order: 1000

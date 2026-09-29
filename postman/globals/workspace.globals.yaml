@@ -1,2 +1,74 @@
 name: Globals
-values: []
+values:
+  - key: base_url
+    value: http://127.0.0.1:8000
+    enabled: true
+  - key: resident_token
+    value: REPLACE_WITH_RESIDENT_JWT_ACCESS_TOKEN
+    enabled: true
+  - key: responder_token
+    value: REPLACE_WITH_SECURITY_OR_VOLUNTEER_ACCESS_TOKEN
+    enabled: true
+  - key: guardian_token
+    value: REPLACE_WITH_GUARDIAN_JWT_ACCESS_TOKEN
+    enabled: true
+  - key: category_id
+    value: "1"
+    enabled: true
+  - key: incident_id
+    value: "1"
+    enabled: true
+  - key: access_token
+    value: REPLACE_WITH_ACCESS_TOKEN
+    enabled: true
+  - key: refresh_token
+    value: REPLACE_WITH_REFRESH_TOKEN
+    enabled: true
+  - key: admin_token
+    value: REPLACE_WITH_ADMIN_ACCESS_TOKEN
+    enabled: true
+  - key: contact_id
+    value: "1"
+    enabled: true
+  - key: notification_id
+    value: "1"
+    enabled: true
+  - key: route_id
+    value: "1"
+    enabled: true
+  - key: fcm_device_token
+    value: REPLACE_WITH_FCM_DEVICE_TOKEN
+    enabled: true
+  - key: resident_username
+    value: REPLACE_WITH_YOUR_USERNAME
+    enabled: true
+  - key: resident_email
+    value: REPLACE_WITH_YOUR_EMAIL
+    enabled: true
+  - key: shared_registration_email
+    value: REPLACE_WITH_SHARED_EMAIL
+    enabled: true
+  - key: target_user_id
+    value: REPLACE_WITH_TARGET_USER_ID
+    enabled: true
+  - key: target_username
+    value: REPLACE_WITH_TARGET_USERNAME
+    enabled: true
+  - key: resident_phone
+    value: REPLACE_WITH_YOUR_MOBILE
+    enabled: true
+  - key: resident_password
+    value: REPLACE_WITH_YOUR_PASSWORD
+    enabled: true
+  - key: emergency_contact_name
+    value: REPLACE_WITH_CONTACT_NAME
+    enabled: true
+  - key: emergency_contact_email
+    value: REPLACE_WITH_CONTACT_EMAIL
+    enabled: true
+  - key: emergency_contact_mobile
+    value: REPLACE_WITH_CONTACT_MOBILE
+    enabled: true
+  - key: emergency_contact_relationship
+    value: REPLACE_WITH_RELATIONSHIP
+    enabled: true

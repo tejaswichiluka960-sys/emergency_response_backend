@@ -1,0 +1,8 @@
+$kind: http-request
+name: 5-Generate AI Digital Twin
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/ai/digital-twin/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+order: 5000

@@ -1,4 +1,10 @@
 $kind: http-request
-url: ""
+name: "2-Get Alert Routes"
+url: "{{base_url}}/api/v1/alert-routing/routes/?incident_id={{incident_id}}"
 method: GET
-order: 4039513185099994
+queryParams:
+  - key: incident_id
+    value: "{{incident_id}}"
+headers:
+  Authorization: Bearer {{admin_token}}
+order: 2

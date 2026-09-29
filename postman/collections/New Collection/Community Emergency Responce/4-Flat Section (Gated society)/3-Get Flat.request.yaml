@@ -1,4 +1,10 @@
 $kind: http-request
-url: ""
+name: "3-Get Flat"
+url: '{{base_url}}/api/flats/{{flat_id}}/'
 method: GET
-order: 4427886675179888
+auth:
+  type: bearer
+  credentials:
+    - key: token
+      value: '{{resident_token}}'
+order: 3

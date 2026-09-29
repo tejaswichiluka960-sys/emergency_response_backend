@@ -1,0 +1,8 @@
+$kind: http-request
+name: 2-Get Chat Messages
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/chat/messages/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+order: 2000

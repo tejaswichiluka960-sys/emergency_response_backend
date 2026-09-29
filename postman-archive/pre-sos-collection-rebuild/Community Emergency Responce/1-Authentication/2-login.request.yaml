@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{base_url}}/api/auth/login/"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "username": "{{resident_username}}",
+      "password": "{{resident_password}}"
+    }
+order: 4113544456849035

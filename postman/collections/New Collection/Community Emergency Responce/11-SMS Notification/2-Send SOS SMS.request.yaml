@@ -1,4 +1,15 @@
 $kind: http-request
-url: ""
-method: GET
-order: 23198804977808
+name: "2-Send SOS SMS"
+url: "{{base_url}}/api/v1/send-sos-sms/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "phone": "{{sos_phone}}",
+      "message": "{{sos_message}}"
+    }
+order: 1

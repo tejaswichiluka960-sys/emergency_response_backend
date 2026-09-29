@@ -5,10 +5,13 @@ __pycache__/
 
 # Virtual environment
 venv/
+venv_repaired/
+venv_legacy_broken_*/
 .venv/
 
 # Django
 db.sqlite3
+staticfiles/
 
 # Environment variables
 .env
@@ -23,3 +26,5 @@ secrets.json
 
 # IDE
 .vscode/
+
+.vercel

@@ -1,2 +1,5 @@
 $kind: collection
-name: New Collection
+auth:
+  - id: 96b483db-e8a1-46fd-a0e5-2c4ee48902fa
+    type: apikey
+    name: API Key

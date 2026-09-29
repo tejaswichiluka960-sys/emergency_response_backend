@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/incidents/{{incident_id}}/updates/"
+method: POST
+headers:
+  Authorization: Bearer {{responder_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "responder_arrived",
+      "message": "Security staff reached the location."
+    }
+order: 1600000000000016

@@ -1,0 +1,8 @@
+$kind: http-request
+name: 4-Get Guardian Notifications
+url: '{{base_url}}/api/v1/notifications/'
+method: GET
+headers:
+  - key: Authorization
+    value: Bearer {{guardian_token}}
+order: 4000

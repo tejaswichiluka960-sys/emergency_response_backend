@@ -1,0 +1,17 @@
+$kind: http-request
+name: 5-Send Response Update
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/updates/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "status": "{{incident_status}}",
+      "message": "{{status_note}}"
+    }
+order: 5000

@@ -1,0 +1,8 @@
+$kind: http-request
+name: Delete profile
+description: Use an admin token and target_username to permanently delete any profile.
+url: "{{base_url}}/api/v1/auth/profile/delete/?username={{target_username}}"
+method: DELETE
+headers:
+  Authorization: Bearer {{admin_token}}
+order: 2

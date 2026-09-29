@@ -1,0 +1,19 @@
+$kind: http-request
+name: 1-Queue Offline Message
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/chat/offline/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "client_message_id": "{{offline_client_message_id}}",
+      "message_type": "TEXT",
+      "message": "I am temporarily offline. Please keep the incident active.",
+      "client_created_at": "2026-09-27T12:00:00Z"
+    }
+order: 1000

@@ -1,0 +1,18 @@
+$kind: http-request
+name: 4-Share Responder Location
+url: '{{base_url}}/api/v1/responders/me/location/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "latitude": {{responder_latitude}},
+      "longitude": {{responder_longitude}},
+      "accuracy": {{responder_accuracy}}
+    }
+order: 4000

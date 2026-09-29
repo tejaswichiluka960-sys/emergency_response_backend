@@ -1,0 +1,19 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/users/me/sos-config/"
+method: PATCH
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "default_category": "medical",
+      "response_timeout_seconds": 60,
+      "notify_guardians": true,
+      "notify_security": true,
+      "notify_volunteers": true,
+      "community_broadcast": true,
+      "location_sharing": true
+    }
+order: 1600000000000006

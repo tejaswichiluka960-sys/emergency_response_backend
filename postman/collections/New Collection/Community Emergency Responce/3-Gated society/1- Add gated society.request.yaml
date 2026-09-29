@@ -1,4 +1,17 @@
 $kind: http-request
-url: ""
-method: GET
-order: 1787933693707
+name: "1- Add gated society"
+url: '{{base_url}}/api/societies/'
+method: POST
+headers:
+  Authorization: Bearer {{subadmin_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "society_name": "{{society_name}}",
+      "owner_name": "{{society_owner_name}}",
+      "incharge": "{{society_incharge}}",
+      "address": "{{society_address}}"
+    }
+order: 1

@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/notifications/send-email/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "email": "{{resident_email}}",
+      "subject": "Emergency Alert",
+      "message": "A resident needs assistance."
+    }
+order: 1600000000000023

@@ -1,0 +1,17 @@
+$kind: http-request
+name: 6-Manual Escalation
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/escalate/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{subadmin_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "level": {{escalation_level}},
+      "reason": "{{escalation_reason}}"
+    }
+order: 6000

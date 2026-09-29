@@ -1,0 +1,17 @@
+$kind: http-request
+name: 6-Accept Incident
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/accept/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "estimated_arrival_minutes": {{estimated_arrival_minutes}},
+      "response_message": "{{response_message}}"
+    }
+order: 6000

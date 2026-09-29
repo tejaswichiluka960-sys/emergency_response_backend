@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{base_url}}/api/v1/users/me/location/"
+method: POST
+headers:
+  Authorization: Bearer {{resident_token}}
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "latitude": 13.1143,
+      "longitude": 80.1485,
+      "accuracy": 8.5
+    }
+order: 1600000000000003

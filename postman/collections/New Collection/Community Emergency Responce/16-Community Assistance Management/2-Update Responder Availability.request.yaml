@@ -1,0 +1,16 @@
+$kind: http-request
+name: 2-Update Responder Availability
+url: '{{base_url}}/api/v1/responders/me/availability/'
+method: PATCH
+headers:
+  - key: Authorization
+    value: Bearer {{responder_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "is_available": {{is_available}}
+    }
+order: 2000

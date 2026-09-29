@@ -1,4 +1,7 @@
 $kind: http-request
-url: ""
+name: "2-List Emergency Contact"
+url: "{{base_url}}/api/v1/users/me/emergency-contacts/"
 method: GET
-order: 357824792905249
+headers:
+  Authorization: Bearer {{resident_token}}
+order: 2

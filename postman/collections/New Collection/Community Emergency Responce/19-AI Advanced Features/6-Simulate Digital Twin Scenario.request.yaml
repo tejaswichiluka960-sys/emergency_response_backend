@@ -1,0 +1,16 @@
+$kind: http-request
+name: 6-Simulate Digital Twin Scenario
+url: '{{base_url}}/api/v1/incidents/{{incident_id}}/ai/digital-twin/'
+method: POST
+headers:
+  - key: Authorization
+    value: Bearer {{access_token}}
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "scenario": "{{digital_twin_scenario}}"
+    }
+order: 6000
